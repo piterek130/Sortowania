@@ -1,3 +1,6 @@
-C:\Users\piter\CLionProjects\untitled\liczby.txt
-1000
-babelkowe
+C:\Users\piter\OneDrive\Pulpit\github1\untitled\liczby.txt
+10
+20
+50
+100
+koktajlowe

@@ -98,7 +98,7 @@ int odczytLiczb(int j)
 
 void odczytZPliku()
 {
-    ifstream plik("C:\\Users\\piter\\CLionProjects\\untitled\\konfig.txt"); // otwórz plik do odczytu
+    ifstream plik("C:\\Users\\piter\\OneDrive\\Pulpit\\github1\\untitled\\konfig.txt"); // otwórz plik do odczytu
 
     if (!plik.is_open()) // sprawdź, czy plik został otwarty
     {
@@ -116,7 +116,7 @@ void odczytZPliku()
 }
 
 void CocktailSort(int iloscLiczb) {
-    auto startClock = high_resolution_clock::now();
+//    auto startClock = high_resolution_clock::now();
     bool swapped = true;             // flaga sprawdzajaca czy doszklo do wymiany w danej iteracji
     int start = 0;
     int end = iloscLiczb - 1;
@@ -124,7 +124,7 @@ void CocktailSort(int iloscLiczb) {
     int shifts = 0;                 // liczba przesuniec
     int temp = 0;
 
-    cout <<"Metoda sortowania: KOKTAJLOWE\n";
+    //cout <<"Metoda sortowania: KOKTAJLOWE\n";
 
     while(swapped == true) {            // dopoki tablica nie jest jeszcze posortowana
         swapped = false;                // wyzerowanie flagi
@@ -160,10 +160,10 @@ void CocktailSort(int iloscLiczb) {
         start++;                            // przesuniecie poczatku poniewaz po ostatniej petli jest on na dobrej pozycji
 
     }
-    auto stop = high_resolution_clock ::now();
-    auto duration = duration_cast<microseconds >(stop - startClock);
-    cout << "Czas wykonania algorytmu: "
-         << (float)duration.count()/1000000 << " sekund" << endl;
+//    auto stop = high_resolution_clock ::now();
+//    auto duration = duration_cast<microseconds >(stop - startClock);
+//    cout << "Czas wykonania algorytmu: "
+//         << (float)duration.count()/1000000 << " sekund" << endl;
 }
 
 int PartitionLamuto(int L, int R) {
@@ -214,6 +214,20 @@ string rodzajSortowania ()
     return konfig[i-1];
 }
 
+int zapisDoPlikuPosortowane(int iloscLiczb)
+{
+    ofstream plik("C:\\Users\\piter\\OneDrive\\Pulpit\\github1\\untitled\\wynik.txt");
+    if (!plik.is_open()) {
+        cerr << "Nie można otworzyć pliku!\n";
+        return -1;
+    }
+
+    for (int i = 0; i < iloscLiczb; i++) {
+        plik << liczby[i] << '\n';
+    }
+    plik.close();
+}
+
 int main()
 {
     odczytZPliku();
@@ -224,30 +238,47 @@ int main()
         if(sortowanie == "babelkowe")
         {
             auto start = high_resolution_clock::now();
-            int iloscLiczb = odczytLiczb(i);
+            cout<<"================================="<<endl;
+            int iloscLiczb = odczytLiczb(i)-1;
             bubbleSort(liczby, iloscLiczb, 0);
             printArray(iloscLiczb);
+            zapisDoPlikuPosortowane(iloscLiczb);
             delete[] liczby;
             i++;
+            cout<<"================================="<<endl;
+            cout<<"Rozmiar instancji "<<iloscLiczb << endl;
             auto stop = high_resolution_clock ::now();
             auto duration = duration_cast<microseconds >(stop - start);
             cout << "Czas wykonania algorytmu: "
                  << (double)duration.count()/1000000 << " sekund" << endl;
         }else if (sortowanie == "koktajlowe")
         {
-            int iloscLiczb = odczytLiczb(i);
+            auto start = high_resolution_clock::now();
+            cout<<"================================="<<endl;
+            int iloscLiczb = odczytLiczb(i)-1;
             CocktailSort(iloscLiczb);
-            //printArray(iloscLiczb);
+            printArray(iloscLiczb);
+            zapisDoPlikuPosortowane(iloscLiczb);
             delete[] liczby;
             i++;
+            cout<<"================================="<<endl;
+            cout<<"Rozmiar instancji "<<iloscLiczb << endl;
+            auto stop = high_resolution_clock ::now();
+            auto duration = duration_cast<microseconds >(stop - start);
+            cout << "Czas wykonania algorytmu: "
+                 << (double)duration.count()/1000000 << " sekund" << endl;
         }else if (sortowanie == "szybkie")
         {
             auto startClock = high_resolution_clock::now();
-            int iloscLiczb = odczytLiczb(i);
+            cout<<"================================="<<endl;
+            int iloscLiczb = odczytLiczb(i)-1;
             QuickSortR(0,iloscLiczb-1);
             printArray(iloscLiczb);
+            zapisDoPlikuPosortowane(iloscLiczb);
             delete[] liczby;
             i++;
+            cout<<"================================="<<endl;
+            cout<<"Rozmiar instancji "<<iloscLiczb << endl;
             auto stop = high_resolution_clock ::now();
             auto duration = duration_cast<microseconds >(stop - startClock);
             cout << "Czas wykonania algorytmu: "
@@ -255,6 +286,16 @@ int main()
 
         }
     }
+//    ofstream plik("C:\\Users\\piter\\OneDrive\\Pulpit\\github1\\untitled\\wynik.txt");
+//    if (!plik.is_open()) {
+//        cerr << "Nie można otworzyć pliku!\n";
+//        return 1;
+//    }
+//
+//    for (int i = 0; i < 30; i++) {
+//        plik << liczby[i] << '\n';
+//    }
+//    plik.close();
 
 
 
