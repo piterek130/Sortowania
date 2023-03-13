@@ -1,6 +1,3 @@
 C:\Users\piter\OneDrive\Pulpit\github1\untitled\liczby.txt
-10
-20
-50
-100
+1000
 babelkowe

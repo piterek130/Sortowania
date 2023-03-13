@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <chrono>
 #include <vector>
+#include <iomanip>
 
 using namespace std;
 using namespace chrono;
@@ -13,6 +14,21 @@ string konfig [KONFIGSIZE];
 int *liczby;
 vector<pair<float, int>> czasIWielkoscInstancji;
 
+// Wyswietlanie stanu obliczen
+void print_progress(double progress) {
+    // Szerokosc paska progresu
+    const int progressbar_width = 50;
+    // Okreslenie pozycji kursora
+    int position = progress * progressbar_width;
+    std::cout << "STAN: [";
+    for(int i = 0; i < progressbar_width; i++){
+        if( i < position)
+            std::cout << '#';
+        else
+            std::cout << '.';
+    }
+    std::cout << "] " << std::setprecision(0) << std::fixed << (progress * 100) << '%' << std::endl;
+}
 
 int strToInt(const std::string& s)
 {
@@ -40,15 +56,15 @@ void swap(int* xp, int* yp)
 }
 
 // A function to implement bubble sort
-void bubbleSort(int arr[], int r, int l)
-{
+void bubbleSort(int arr[], int r, int l) {
     int i, j;
-    for (i = l; i < r - 1; i++)
-
+    for (i = l; i < r - 1; i++) {
+        print_progress((float)i/(r-2));
         // Last i elements are already in place
         for (j = l; j < r - i - 1; j++)
             if (arr[j] > arr[j + 1])
                 swap(&arr[j], &arr[j + 1]);
+    }
 }
 
 /* Function to print an array */
@@ -198,15 +214,17 @@ int PartitionLamuto(int L, int R) {
     return boarder;
 }
 
-void QuickSortR(int L, int R) {
-    if (R - L + 1 <= 10) {
-        bubbleSort(liczby, R, L);
+int chuj = 0;
+void QuickSortR(int L, int R, int iloscLiczb) {
+    if (R - L + 1 <= 1) {
+        print_progress((float)chuj++/iloscLiczb);
+        //bubbleSort(liczby, R, L);
         return;
     }
 
     int q = PartitionLamuto(L, R);
-    QuickSortR(L, q-1);
-    QuickSortR(q+1, R);
+    QuickSortR(L, q-1, iloscLiczb);
+    QuickSortR(q+1, R, iloscLiczb);
 
 }
 
@@ -259,6 +277,7 @@ int zapisDoPlikuCzas(int j)
     plik.close();
 }
 
+
 int main()
 {
     odczytZPliku();
@@ -281,9 +300,9 @@ int main()
             auto stop = high_resolution_clock ::now();
             auto duration = duration_cast<microseconds >(stop - start);
             cout << "Czas wykonania algorytmu: "
-                 << (float)duration.count()/1000000 << " sekund" << endl;
+                 << (double)duration.count()/1000000 << " sekund" << endl;
 
-            czasIWielkoscInstancji.push_back(make_pair((float)duration.count()/1000000, iloscLiczb));
+            czasIWielkoscInstancji.push_back(make_pair((double)duration.count()/1000000, iloscLiczb));
             //printArray();
             zapisDoPlikuCzas(1);
             zapisDoPlikuCzas(2);
@@ -310,7 +329,7 @@ int main()
             auto startClock = high_resolution_clock::now();
             cout<<"================================="<<endl;
             int iloscLiczb = odczytLiczb(i)-1;
-            QuickSortR(0,iloscLiczb-1);
+            QuickSortR(0,iloscLiczb-1, iloscLiczb);
             //printArray(iloscLiczb);
             zapisDoPlikuPosortowane(iloscLiczb);
             delete[] liczby;
@@ -320,7 +339,7 @@ int main()
             auto stop = high_resolution_clock ::now();
             auto duration = duration_cast<microseconds >(stop - startClock);
             cout << "Czas wykonania algorytmu: "
-                 << (float)duration.count()/1000000 << " sekund" << endl;
+                 << (double)duration.count()/1000000 << " sekund" << endl;
 
         }
     }
