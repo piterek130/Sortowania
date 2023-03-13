@@ -3,6 +3,7 @@
 #include <string>
 #include <stdio.h>
 #include <chrono>
+#include <vector>
 
 using namespace std;
 using namespace chrono;
@@ -10,6 +11,8 @@ using namespace chrono;
 #define KONFIGSIZE 10
 string konfig [KONFIGSIZE];
 int *liczby;
+vector<pair<float, int>> czasIWielkoscInstancji;
+
 
 int strToInt(const std::string& s)
 {
@@ -53,7 +56,14 @@ void printArray(int size)
 {
     int i;
     for (i = 0; i < size; i++)
-        printf("%d ", liczby[i]);
+        printf( " %d", liczby[i]);
+    printf("\n");
+}
+void printArray()
+{
+    int i;
+    for (i = 0; i < czasIWielkoscInstancji.size(); i++)
+        printf("czas: %f wielkoscInstancji: %d", czasIWielkoscInstancji[i].first, czasIWielkoscInstancji[i].second);
     printf("\n");
 }
 string usuwanieSpacji(string str)
@@ -216,7 +226,8 @@ string rodzajSortowania ()
 
 int zapisDoPlikuPosortowane(int iloscLiczb)
 {
-    ofstream plik("C:\\Users\\piter\\OneDrive\\Pulpit\\github1\\untitled\\wynik.txt");
+    fstream plik;
+    plik.open("C:\\Users\\piter\\OneDrive\\Pulpit\\github1\\untitled\\wynik.txt", ios::out);
     if (!plik.is_open()) {
         cerr << "Nie można otworzyć pliku!\n";
         return -1;
@@ -224,6 +235,26 @@ int zapisDoPlikuPosortowane(int iloscLiczb)
 
     for (int i = 0; i < iloscLiczb; i++) {
         plik << liczby[i] << '\n';
+    }
+    plik.close();
+}
+
+int zapisDoPlikuCzas(int j)
+{
+    fstream plik;
+    if (j == 1)
+        plik.open("C:\\Users\\piter\\OneDrive\\Pulpit\\github1\\untitled\\wynikCzas.txt", ios::out);
+    else
+        plik.open("C:\\Users\\piter\\OneDrive\\Pulpit\\github1\\untitled\\wielkoscInstancji.txt", ios::out);
+    if (!plik.is_open()) {
+        cerr << "Nie można otworzyć pliku!\n";
+        return -1;
+    }
+
+
+    for (int i = 0; i < czasIWielkoscInstancji.size(); i++) {
+        j == 1 ?
+        plik << czasIWielkoscInstancji[i].first << '\n' : plik << czasIWielkoscInstancji[i].second << '\n';
     }
     plik.close();
 }
@@ -241,7 +272,7 @@ int main()
             cout<<"================================="<<endl;
             int iloscLiczb = odczytLiczb(i)-1;
             bubbleSort(liczby, iloscLiczb, 0);
-            printArray(iloscLiczb);
+            //printArray(iloscLiczb);
             zapisDoPlikuPosortowane(iloscLiczb);
             delete[] liczby;
             i++;
@@ -250,14 +281,21 @@ int main()
             auto stop = high_resolution_clock ::now();
             auto duration = duration_cast<microseconds >(stop - start);
             cout << "Czas wykonania algorytmu: "
-                 << (double)duration.count()/1000000 << " sekund" << endl;
+                 << (float)duration.count()/1000000 << " sekund" << endl;
+
+            czasIWielkoscInstancji.push_back(make_pair((float)duration.count()/1000000, iloscLiczb));
+            //printArray();
+            zapisDoPlikuCzas(1);
+            zapisDoPlikuCzas(2);
+
+
         }else if (sortowanie == "koktajlowe")
         {
             auto start = high_resolution_clock::now();
             cout<<"================================="<<endl;
             int iloscLiczb = odczytLiczb(i)-1;
             CocktailSort(iloscLiczb);
-            printArray(iloscLiczb);
+            //printArray(iloscLiczb);
             zapisDoPlikuPosortowane(iloscLiczb);
             delete[] liczby;
             i++;
@@ -266,14 +304,14 @@ int main()
             auto stop = high_resolution_clock ::now();
             auto duration = duration_cast<microseconds >(stop - start);
             cout << "Czas wykonania algorytmu: "
-                 << (double)duration.count()/1000000 << " sekund" << endl;
+                 << (float)duration.count()/1000000 << " sekund" << endl;
         }else if (sortowanie == "szybkie")
         {
             auto startClock = high_resolution_clock::now();
             cout<<"================================="<<endl;
             int iloscLiczb = odczytLiczb(i)-1;
             QuickSortR(0,iloscLiczb-1);
-            printArray(iloscLiczb);
+            //printArray(iloscLiczb);
             zapisDoPlikuPosortowane(iloscLiczb);
             delete[] liczby;
             i++;
