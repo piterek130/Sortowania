@@ -9,7 +9,7 @@
 using namespace std;
 using namespace chrono;
 
-#define KONFIGSIZE 10
+#define KONFIGSIZE 29
 string konfig [KONFIGSIZE];
 int *liczby;
 vector<pair<float, int>> czasIWielkoscInstancji;
@@ -30,6 +30,7 @@ void print_progress(double progress) {
     std::cout << "] " << std::setprecision(0) << std::fixed << (progress * 100) << '%' << std::endl;
 }
 
+//ZAMIANA STRINGA NA INTA
 int strToInt(const std::string& s)
 {
     bool negative = false;
@@ -48,6 +49,7 @@ int strToInt(const std::string& s)
     return negative ? -tmp : tmp;
 }
 
+//ZAMIANA DOWCH LICZB ZE SOBA
 void swap(int* xp, int* yp)
 {
     int temp = *xp;
@@ -55,11 +57,11 @@ void swap(int* xp, int* yp)
     *yp = temp;
 }
 
-// A function to implement bubble sort
+// SORTOWANIE BABELKOWE
 void bubbleSort(int arr[], int r, int l) {
     int i, j;
     for (i = l; i < r - 1; i++) {
-        print_progress((float)i/(r-2));
+        //print_progress((float)i/(r-2));
         // Last i elements are already in place
         for (j = l; j < r - i - 1; j++)
             if (arr[j] > arr[j + 1])
@@ -67,7 +69,7 @@ void bubbleSort(int arr[], int r, int l) {
     }
 }
 
-/* Function to print an array */
+// WYSWIETLENIE TABLICY
 void printArray(int size)
 {
     int i;
@@ -82,6 +84,8 @@ void printArray()
         printf("czas: %f wielkoscInstancji: %d", czasIWielkoscInstancji[i].first, czasIWielkoscInstancji[i].second);
     printf("\n");
 }
+
+//USUWANIE SPACJI
 string usuwanieSpacji(string str)
 {
     for (int i = 0; i < str.length(); i++)
@@ -94,6 +98,8 @@ string usuwanieSpacji(string str)
     }
     return str;
 }
+
+// ODCZYT LICZB Z PLIKU
 int odczytLiczb(int j)
 {
     ifstream plik(konfig[0]); // otwórz plik do odczytu
@@ -122,6 +128,7 @@ int odczytLiczb(int j)
     return i + 1;
 }
 
+// ODCZYT KONFIGA Z PLIKU
 void odczytZPliku()
 {
     ifstream plik("C:\\Users\\piter\\OneDrive\\Pulpit\\github1\\untitled\\konfig.txt"); // otwórz plik do odczytu
@@ -141,6 +148,7 @@ void odczytZPliku()
     plik.close(); // zamknij plik
 }
 
+// SORTOWANIE KOKTAILOWE
 void CocktailSort(int iloscLiczb) {
 //    auto startClock = high_resolution_clock::now();
     bool swapped = true;             // flaga sprawdzajaca czy doszklo do wymiany w danej iteracji
@@ -214,6 +222,7 @@ int PartitionLamuto(int L, int R) {
     return boarder;
 }
 
+// SZYBKIE SORTOWANIE
 int chuj = 0;
 void QuickSortR(int L, int R, int iloscLiczb) {
     if (R - L + 1 <= 1) {
@@ -228,6 +237,7 @@ void QuickSortR(int L, int R, int iloscLiczb) {
 
 }
 
+// SPRAWDZENIE CZY DANA JEST LICZBA
 bool isNumber(const string& s)
 {
     string::const_iterator it = s.begin();
@@ -235,6 +245,7 @@ bool isNumber(const string& s)
     return !s.empty() && it == s.end();
 }
 
+// WYBOR SORTOWANIA
 string rodzajSortowania ()
 {
     int i = 1;
@@ -242,6 +253,7 @@ string rodzajSortowania ()
     return konfig[i-1];
 }
 
+// ZAPIS DO PLIKU
 int zapisDoPlikuPosortowane(int iloscLiczb)
 {
     fstream plik;
@@ -257,6 +269,7 @@ int zapisDoPlikuPosortowane(int iloscLiczb)
     plik.close();
 }
 
+// ZAPIS DO PLIKU
 int zapisDoPlikuCzas(int j)
 {
     fstream plik;
@@ -294,6 +307,7 @@ int main()
             //printArray(iloscLiczb);
             zapisDoPlikuPosortowane(iloscLiczb);
             delete[] liczby;
+            print_progress((float)i/(KONFIGSIZE-2));
             i++;
             cout<<"================================="<<endl;
             cout<<"Rozmiar instancji "<<iloscLiczb << endl;
@@ -323,7 +337,13 @@ int main()
             auto stop = high_resolution_clock ::now();
             auto duration = duration_cast<microseconds >(stop - start);
             cout << "Czas wykonania algorytmu: "
-                 << (float)duration.count()/1000000 << " sekund" << endl;
+                 << (double)duration.count()/1000000 << " sekund" << endl;
+
+            czasIWielkoscInstancji.push_back(make_pair((double)duration.count()/1000000, iloscLiczb));
+            //printArray();
+            zapisDoPlikuCzas(1);
+            zapisDoPlikuCzas(2);
+
         }else if (sortowanie == "szybkie")
         {
             auto startClock = high_resolution_clock::now();
@@ -340,6 +360,11 @@ int main()
             auto duration = duration_cast<microseconds >(stop - startClock);
             cout << "Czas wykonania algorytmu: "
                  << (double)duration.count()/1000000 << " sekund" << endl;
+
+            czasIWielkoscInstancji.push_back(make_pair((double)duration.count()/1000000, iloscLiczb));
+            //printArray();
+            zapisDoPlikuCzas(1);
+            zapisDoPlikuCzas(2);
 
         }
     }
