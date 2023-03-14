@@ -9,7 +9,7 @@
 using namespace std;
 using namespace chrono;
 
-#define KONFIGSIZE 29
+#define KONFIGSIZE 26
 string konfig [KONFIGSIZE];
 int *liczby;
 vector<pair<float, int>> czasIWielkoscInstancji;
@@ -300,10 +300,13 @@ int main()
     {
         if(sortowanie == "babelkowe")
         {
-            auto start = high_resolution_clock::now();
+            //auto start = high_resolution_clock::now();
             cout<<"================================="<<endl;
             int iloscLiczb = odczytLiczb(i)-1;
+            auto start = high_resolution_clock::now();
             bubbleSort(liczby, iloscLiczb, 0);
+            auto stop = high_resolution_clock ::now();
+            auto duration = duration_cast<microseconds >(stop - start);
             //printArray(iloscLiczb);
             zapisDoPlikuPosortowane(iloscLiczb);
             delete[] liczby;
@@ -311,8 +314,8 @@ int main()
             i++;
             cout<<"================================="<<endl;
             cout<<"Rozmiar instancji "<<iloscLiczb << endl;
-            auto stop = high_resolution_clock ::now();
-            auto duration = duration_cast<microseconds >(stop - start);
+//            auto stop = high_resolution_clock ::now();
+//            auto duration = duration_cast<microseconds >(stop - start);
             cout << "Czas wykonania algorytmu: "
                  << (double)duration.count()/1000000 << " sekund" << endl;
 
@@ -324,18 +327,21 @@ int main()
 
         }else if (sortowanie == "koktajlowe")
         {
-            auto start = high_resolution_clock::now();
+            //auto start = high_resolution_clock::now();
             cout<<"================================="<<endl;
             int iloscLiczb = odczytLiczb(i)-1;
+            auto start = high_resolution_clock::now();
             CocktailSort(iloscLiczb);
+            auto stop = high_resolution_clock ::now();
+            auto duration = duration_cast<microseconds >(stop - start);
             //printArray(iloscLiczb);
             zapisDoPlikuPosortowane(iloscLiczb);
             delete[] liczby;
             i++;
             cout<<"================================="<<endl;
             cout<<"Rozmiar instancji "<<iloscLiczb << endl;
-            auto stop = high_resolution_clock ::now();
-            auto duration = duration_cast<microseconds >(stop - start);
+//            auto stop = high_resolution_clock ::now();
+//            auto duration = duration_cast<microseconds >(stop - start);
             cout << "Czas wykonania algorytmu: "
                  << (double)duration.count()/1000000 << " sekund" << endl;
 
