@@ -23,4 +23,4 @@ C:\Users\piter\OneDrive\Pulpit\github1\untitled\liczby.txt
 15000
 17000
 20000
-koktajlowe
+zliczanie
