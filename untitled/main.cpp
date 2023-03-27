@@ -9,7 +9,7 @@
 using namespace std;
 using namespace chrono;
 
-#define KONFIGSIZE 26
+#define KONFIGSIZE 39
 string konfig [KONFIGSIZE];
 int *liczby;
 vector<pair<float, int>> czasIWielkoscInstancji;
@@ -343,7 +343,8 @@ void countingSort(int arr[], int n) {
         }
     }
     int size = max-min+1;
-    int tab[size];
+    //int tab[size];
+    int * tab =new int[size];
     for (int i = 0; i < size; ++i)
         tab[i] = 0;
     int przesuniecie;
@@ -358,7 +359,8 @@ void countingSort(int arr[], int n) {
     for (int i = 1; i < size; ++i)
         tab[i] += tab[i-1];
 
-    int sortedArr[size];
+//    int sortedArr[size];
+    int * sortedArr =new int[n];
 
     for (int i = 0; i < n; ++i)
         sortedArr[--tab[arr[i]-przesuniecie]] = arr[i];
